@@ -1,7 +1,0 @@
-langchain
-huggingface
-langchain_openai
-load_dotenv
-langchain_core
-streamlit
-langchain_groq
