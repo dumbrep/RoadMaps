@@ -11,7 +11,7 @@ open_token = st.secrets["OPENAI_KEY"]
 os.environ["OPENAI_API_KEY"] = open_token
 
 # Initialize model 
-model = ChatOpenAI(model="gpt-4 mini")
+model = ChatOpenAI(model="ada")
 
 #Tools declarations
 @tool
