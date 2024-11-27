@@ -11,7 +11,7 @@ open_token = st.secrets["OPENAI_KEY"]
 os.environ["OPENAI_API_KEY"] = open_token
 
 # Initialize model 
-model = ChatOpenAI(model="gpt-3.5")
+model = ChatOpenAI(model="gpt-3.5-turbo")
 
 #Tools declarations
 @tool
