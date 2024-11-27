@@ -106,12 +106,12 @@ if page == "Student":
     math_per = st.sidebar.number_input("Mathematics Syllabus Completion (%)", min_value=0, max_value=100, value=70)
     target = st.sidebar.number_input("What parcentile your are targetting",min_value=0, max_value=100, value=70)
     st.sidebar.write("Enter your habbits")
-    habbits = st.sidebar.text_area("Habbits")
+    habbits = st.sidebar.text_input("Habbits")
     st.sidebar.write("SWOT Info")
-    strength = st.sidebar.text_input("Strength")
-    weakness = st.sidebar.text_input("Weakness")
-    oppor = st.sidebar.text_input("Opportunities")
-    threats = st.sidebar.text_input("Threats")
+    strength = st.sidebar.text_area("Strength")
+    weakness = st.sidebar.text_area("Weakness")
+    oppor = st.sidebar.text_area("Opportunities")
+    threats = st.sidebar.text_area("Threats")
     
     if st.session_state.roadmap:
         st.write(st.session_state.roadmap)
@@ -136,7 +136,7 @@ if page == "Student":
                         if st.session_state.final == True:
                             st.container(st.session_state.roadmap)
                         else:
-                            st.write("Review of roadmap by parents/teachers is pending!")
+                            st.write("Review of roadmap by parents/teachers is pending! Go to Parents dashboard to finalize")
 
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
