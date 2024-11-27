@@ -87,7 +87,7 @@ if "editing" not in st.session_state:
 # Sidebar for page navigation
 st.sidebar.markdown("Select dashboard..")
 page = st.sidebar.selectbox("Who are you?", ["Student", "Parent/Teacher"])
-
+st.sidebar.write("---------------------------")
 
 if page == "Student":
     st.title("Welcome dear aspirant ! 🎓")
