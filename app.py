@@ -33,6 +33,7 @@ def generate_roadmap_tool(details: str) -> str:
                     -Syllabus Completion: Milestones for covering the syllabus with a buffer period.
                     -Daily Routine: Active study in the morning, revision midday, practice in the evening.
                     -Breaks: Short breaks for better focus and energy retention.
+                Create step by step point wise roadmap, include all above points.
 
                 My current details are: {details}
 
