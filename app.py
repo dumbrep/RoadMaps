@@ -112,7 +112,8 @@ if page == "Student":
     weakness = st.sidebar.text_area("Weakness")
     oppor = st.sidebar.text_area("Opportunities")
     threats = st.sidebar.text_area("Threats")
-    
+    st.sidebar.write("-------------------------------")
+    st.sidebar.write("In some cases, model may generate short paragraph instead of detailed roadmap. This is not the project fault but it is model’s poor performance. In this case, please give instructions in suggestion box or reload the app. ")
     if st.session_state.roadmap:
         st.write(st.session_state.roadmap)
     else:
