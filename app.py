@@ -121,9 +121,9 @@ if page == "Student":
                         f"I have {months} months for preparation. My marks are: "
                         f"Physics = {physics_marks}, Chemistry = {chemistry_marks}, Mathematics = {math_marks}. "
                         f"My syllabus completion is: Physics = {physics_per}%, Chemistry = {chemistry_per}%, Mathematics = {math_per}%. "
-                        f"My target to achive {target} percentile.
+                        f"My target to achive {target} percentile."
                         f"My habbits are as follows :{habbits}"
-                        
+                        f"My SWOT info : strength ->{strength} , weakness ->{weakness}, Opportunities -> {oppor}, Threats ->{threats}"
                         f"Generate a roadmap accordingly."
                     )
                     result = agent.run(input_data)
