@@ -102,7 +102,15 @@ if page == "Student":
     physics_per = st.sidebar.number_input("Physics Syllabus Completion (%)", min_value=0, max_value=100, value=69)
     chemistry_per = st.sidebar.number_input("Chemistry Syllabus Completion (%)", min_value=0, max_value=100, value=80)
     math_per = st.sidebar.number_input("Mathematics Syllabus Completion (%)", min_value=0, max_value=100, value=70)
-
+    target = st.sidebar.number_input("What parcentile your are targetting",min_value=0, max_value=100, value=70)
+    st.sidebar.write("Enter your habbits")
+    habbits = st.text_area("Habbits")
+    st.sidebar.write("SWOT Info")
+    strength = st.text_input("Strength")
+    weakness = st.text_input("Weakness")
+    oppor = st.text_input("Opportunities")
+    threats = st.text_input("Threats")
+    
     if st.session_state.roadmap:
         st.write(st.session_state.roadmap)
     else:
@@ -113,6 +121,9 @@ if page == "Student":
                         f"I have {months} months for preparation. My marks are: "
                         f"Physics = {physics_marks}, Chemistry = {chemistry_marks}, Mathematics = {math_marks}. "
                         f"My syllabus completion is: Physics = {physics_per}%, Chemistry = {chemistry_per}%, Mathematics = {math_per}%. "
+                        f"My target to achive {target} percentile.
+                        f"My habbits are as follows :{habbits}"
+                        
                         f"Generate a roadmap accordingly."
                     )
                     result = agent.run(input_data)
