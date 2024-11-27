@@ -7,7 +7,8 @@ import os
 
 #Load environment variables
 
-os.environ["OPENAI_API_KEY"] = st.secrets("key")
+open_token = st.secrets["OPENAI_KEY"]
+os.environ["OPENAI_API_KEY"] = open_token
 
 # Initialize model 
 model = ChatOpenAI(model="gpt-4 mini")
