@@ -1,23 +1,21 @@
 import streamlit as st
-from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
-from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from langchain.tools import tool
 from langchain.agents import initialize_agent, Tool
-
 import os
 
-# Load environment variables
 
-GROQ_KEY = st.secrets["GROQ_SECRETE_TOKEN"]
-os.environ["GROQ_API_KEY"] = GROQ_KEY
+#Load environment variables
 
-# Initialize model and prompt
-model = ChatGroq(model="gemma2-9b-it")
+os.environ["OPENAI_API_KEY"] = st.secrets("OPENAI_KEY")
 
+# Initialize model 
+model = ChatOpenAI(model="gpt-4 mini")
+
+#Tools declarations
 @tool
 def generate_roadmap_tool(details: str) -> str:
     """Generates a study roadmap based on the student's details."""
-    # Pass prompt through the model
     response = model.invoke(        
             f"""
                 I am a JEE aspirant. Prepare a roadmap for my study based on my provided content.
@@ -26,13 +24,18 @@ def generate_roadmap_tool(details: str) -> str:
                 2. Focus area: Which subject should I focus on more.
                 3. Revision and mock tests: Include time for revision and mock tests.
                 4. Daily and weekly routines: Include daily and weekly routines.
+                prepare pointwise roadmap were points are :
+                    -Daily Time Allocation: Hours for Physics, Chemistry, and Math.
+                    -Focus Areas: Strengthen weak topics and prioritize high-weightage chapters.
+                    -Revision Schedule: Daily reviews and weekly topic recaps.
+                    -Mock Tests: Weekly full-length and sectional tests with detailed analysis.
+                    -Syllabus Completion: Milestones for covering the syllabus with a buffer period.
+                    -Daily Routine: Active study in the morning, revision midday, practice in the evening.
+                    -Breaks: Short breaks for better focus and energy retention.
 
                 My current details are: {details}
 
-                Prepare the best roadmap using your full potential.
-                Generate detailed pointwise roadmap.
-                Display in proper format and include all aspects in roadmap that I have specified earlier.
-                Also give your suggestions at last.  
+                
             """
     )
     return response.content.strip()
@@ -41,7 +44,6 @@ def generate_roadmap_tool(details: str) -> str:
 @tool
 def regenerate_roadmap_tool(changes: str) -> str:
     """Refines an existing roadmap based on feedback or suggestions."""
-    # Pass prompt through the model
     response = model.invoke(
             f"""
             I am giving some changes to your old roadmap. Change it according to my suggestions.
@@ -66,11 +68,10 @@ agent = initialize_agent(llm=model, tools=tools, agent="zero-shot-react-descript
 
 def regenerate(changes):
     updated_roadmap = agent.run(f"Refine this roadmap: {st.session_state.roadmap} with feedback: {changes}")
-    st.session_state.roadmap = updated_roadmap  # Save the updated roadmap
+    st.session_state.roadmap = updated_roadmap  # Save the updated roadmap           
             
-            # Display the updated roadmap
     st.success("Roadmap updated successfully!")
-    st.write(st.session_state.roadmap)   # Show the updated roadmap immediately
+    st.write(st.session_state.roadmap)   
 
 # Initialize session state
 if "roadmap" not in st.session_state:
@@ -85,14 +86,17 @@ if "editing" not in st.session_state:
 page = st.sidebar.selectbox("Who are you?", ["Student", "Parent/Teacher"])
 
 if page == "Student":
-    st.title("Welcome dear aspirant! ")
+    st.title("Welcome dear aspirant ! 🎓")
     st.write("Please provide your details to generate a personalized roadmap.")
 
     # Input fields for student details
-    months = st.sidebar.number_input("Months Remaining", min_value=1, max_value=24, value=6)
+ 
+    months = st.sidebar.number_input("Months remaining for your examination", min_value=1, max_value=24, value=6)
+    st.sidebar.write("Enter marks obtained in last test")
     physics_marks = st.sidebar.number_input("Physics Marks", min_value=0, max_value=100, value=80)
     chemistry_marks = st.sidebar.number_input("Chemistry Marks", min_value=0, max_value=100, value=70)
     math_marks = st.sidebar.number_input("Mathematics Marks", min_value=0, max_value=100, value=65)
+    st.sidebar.write("How much syllabus you have coverd?")
     physics_per = st.sidebar.number_input("Physics Syllabus Completion (%)", min_value=0, max_value=100, value=69)
     chemistry_per = st.sidebar.number_input("Chemistry Syllabus Completion (%)", min_value=0, max_value=100, value=80)
     math_per = st.sidebar.number_input("Mathematics Syllabus Completion (%)", min_value=0, max_value=100, value=70)
@@ -111,11 +115,11 @@ if page == "Student":
                     )
                     result = agent.run(input_data)
                     st.session_state.roadmap = result
-                    # Save roadmap in session state
+                    #Save roadmap in session state
                     st.success("Roadmap generated successfully!")
                     if result:
                         if st.session_state.final == True:
-                            st.write(st.session_state.roadmap)
+                            st.container(st.session_state.roadmap)
                         else:
                             st.write("Review of roadmap by parents/teachers is pending!")
 
@@ -123,34 +127,31 @@ if page == "Student":
                     st.error(f"An error occurred: {e}")
 
 elif page == "Parent/Teacher":
-    st.title("Parent/Teacher Page")
+    st.title("Welcome to Reviewer section📚")
     st.subheader("Please review and give suggestions")
 
-    # Display roadmap if available
     if st.session_state.roadmap:
-        # Display the current roadmap
+        
         st.write(st.session_state.roadmap)
 
-    # Button to start making changes
-    if st.button("Make changes"):
-        st.session_state.editing = True  # Enable editing mode
+        #Button to start making changes
+        if st.button("Make changes"):
+            st.session_state.editing = True  
 
-    # Editing mode logic
-    if st.session_state.get("editing", True):
-        # Text area for suggestions
-        changes = st.text_area("Suggest changes")
+        if st.session_state.get("editing", True):
+            # Text area for suggestions
+            changes = st.text_area("Suggest changes")
 
-        # Button to regenerate the roadmap
-        if st.button("Regenerate"):
-            regenerate(changes)
-            # Update the roadmap with new feedback
-            
-        # Button to finalize the roadmap
+            # Button to regenerate the roadmap
+            if st.button("Regenerate"):
+                regenerate(changes)
+                #Update the roadmap with new feedback
+                
+            # Button to finalize the roadmap
         if st.button("Finalize"):
-            st.session_state.editing = False  # Disable editing mode
-            st.session_state.final = True  # Mark roadmap as finalized
+            st.session_state.editing = False  
+            st.session_state.final = True  
             st.success("Roadmap finalized!")
-            st.write(st.session_state.roadmap)  # Display the finalized roadmap
-
-else:
-    st.warning("No roadmap has been generated yet. Please generate it on the Student page.")
+            st.write(st.session_state.roadmap)  
+    else:
+        st.warning("No roadmap has been generated yet. Please generate it on the Student page.")
