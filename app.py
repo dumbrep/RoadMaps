@@ -11,7 +11,7 @@ open_token = st.secrets["OPENAI_KEY"]
 os.environ["OPENAI_API_KEY"] = open_token
 
 # Initialize model 
-model = ChatOpenAI(model="gpt-4o")
+model = ChatOpenAI(model="gpt-4o-mini")
 
 #Tools declarations
 @tool
@@ -19,23 +19,32 @@ def generate_roadmap_tool(details: str) -> str:
     """Generates a study roadmap based on the student's details."""
     response = model.invoke(        
             f"""
-                I am a JEE aspirant. Prepare a roadmap for my study based on my provided content.
-                The roadmap should include:
-                1. Subject-wise information: How much time should I spend daily on each subject.
-                2. Focus area: Which subject should I focus on more.
-                3. Revision and mock tests: Include time for revision and mock tests.
-                4. Daily and weekly routines: Include daily and weekly routines.
-                prepare pointwise roadmap were points are :
-                    -Daily Time Allocation: Hours for Physics, Chemistry, and Math.
-                    -Focus Areas: Strengthen weak topics and prioritize high-weightage chapters.
-                    -Revision Schedule: Daily reviews and weekly topic recaps.
-                    -Mock Tests: Weekly full-length and sectional tests with detailed analysis.
-                    -Syllabus Completion: Milestones for covering the syllabus with a buffer period.
-                    -Daily Routine: Active study in the morning, revision midday, practice in the evening.
-                    -Breaks: Short breaks for better focus and energy retention.
-                Create step by step point wise roadmap, include all above points.
+                I am a JEE aspirant. Prepare a detailed roadmap for my preparation based on my provided details.
 
-                My current details are: {details}
+                The roadmap should include the following sections:
+                
+                1. Subject-Wise Information
+                Daily Time Allocation: Specify how many hours I should spend on Physics, Chemistry, and Math each day.
+                2. Focus Areas
+                Weak Topics: Guidance on identifying and strengthening weak topics.
+                High-Weightage Topics: List chapters/topics from each subject that are most important for JEE.
+                3. Revision Plan
+                Daily Reviews: Include time for revising concepts learned earlier.
+                Weekly Recaps: Allocate time for summarizing and revisiting key topics covered during the week.
+                4. Mock Test Strategy
+                Weekly Mock Tests: Schedule weekly full-length and sectional tests to monitor progress.
+                Test Analysis: Include a plan for analyzing mistakes and learning from them.
+                5. Syllabus Completion Plan
+                Create milestones to complete the syllabus, leaving a buffer period for revision and improvement.
+                6. Daily and Weekly Routine
+                Daily Routine: Suggest a schedule with active study hours, revision slots, and practice sessions.
+                Weekly Routine: Divide weekly tasks to balance syllabus coverage, revision, and testing.
+                7. Breaks and Well-being
+                Suggest short, regular breaks to maintain focus and energy during study sessions.
+                Additional Details for Customization:
+                Based on my current preparation level and any specific details I provide, tailor the roadmap to maximize efficiency and productivity.
+                
+                Details: {details}
 
                 
             """
