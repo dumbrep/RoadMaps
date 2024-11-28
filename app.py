@@ -49,7 +49,7 @@ def generate_roadmap_tool(details: str) -> str:
                 
             """
     )
-    return response.content.strip()
+    return response.content
 
 
 @tool
@@ -67,7 +67,7 @@ def regenerate_roadmap_tool(changes: str) -> str:
             Give the changed roadmap in the same format as the original roadmap.
             """
     )
-    return response.content.strip()
+    return response.content
 
 
 tools = [
