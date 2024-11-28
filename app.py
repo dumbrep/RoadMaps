@@ -11,7 +11,7 @@ open_token = st.secrets["OPENAI_KEY"]
 os.environ["OPENAI_API_KEY"] = open_token
 
 # Initialize model 
-model = ChatOpenAI(model="gpt-4o-mini")
+model = ChatOpenAI(model="gpt-4o")
 
 #Tools declarations
 @tool
@@ -85,8 +85,7 @@ if "editing" not in st.session_state:
     st.session_state.editing = False
 
 # Sidebar for page navigation
-st.sidebar.markdown("Select dashboard..")
-page = st.sidebar.selectbox("Who are you?", ["Student", "Parent/Teacher"])
+page = st.sidebar.selectbox("Select dashboard..", ["Student", "Parent/Teacher"])
 st.sidebar.write("---------------------------")
 
 if page == "Student":
